@@ -1,0 +1,51 @@
+{
+  "version": "1.0",
+  "build_complete": true,
+  "build_date": "2026-03-13",
+  "iso_created": true,
+  "iso_location": "/run/media/aegon/692f77f2-a75c-4e8e-b56c-14329a88dead/build-workspace/lilith-linux-1.0.iso",
+  "iso_size": "2.6GB",
+  "phases": {
+    "base_setup": "completed",
+    "cosmic_desktop": "completed",
+    "branding": "completed",
+    "theme": "completed",
+    "apps": "completed",
+    "rust_alternatives": "completed",
+    "iso_creation": "completed"
+  },
+  "installed_apps": {
+    "offerings": "Package manager GUI",
+    "s8n": "CLI package manager",
+    "tweakers": "System optimization",
+    "shapeshifter": "Profile manager",
+    "lilim": "AI Assistant",
+    "lilith_tts": "Text-to-Speech",
+    "hyper": "Terminal",
+    "digikam": "Photo management"
+  },
+  "rust_alternatives": {
+    "bat": "cat replacement",
+    "lsd": "ls replacement",
+    "fd": "find replacement",
+    "ripgrep": "grep replacement",
+    "dust": "du replacement",
+    "procs": "ps replacement",
+    "broot": "tree replacement",
+    "navi": "cheat sheet",
+    "starship": "shell prompt",
+    "zoxide": "smart cd"
+  },
+  "disk_space": {
+    "root_available": "3.7GB",
+    "flash_available": "215GB"
+  },
+  "system_config": {
+    "hostname": "lilith",
+    "timezone": "America/New_York",
+    "locale": "en_US.UTF-8",
+    "desktop": "cosmic",
+    "theme": "Fluent-dark",
+    "terminal": "hyper"
+  }
+}

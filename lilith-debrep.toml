@@ -1,0 +1,535 @@
+# Lilith Linux Package Repository Specification
+# Based on debrepbuild format from Pop!OS
+# https://github.com/pop-os/debrepbuild
+#
+# This file specifies all packages and upstream sources for the Lilith Linux repository.
+# It supports automatic syncing with upstream sources.
+
+[repository]
+name = "Lilith Linux"
+description = "Lilith Linux Package Repository"
+architectures = ["amd64"]
+signing_key = "packages@lilithlinux.org"
+
+# Distribution configuration
+[distribution]
+name = "stable"
+codename = "stable"
+version = "1.0.0"
+
+# Components available in this distribution
+components = ["main", "multiverse", "universe"]
+
+# =============================================================================
+# UPSTREAM REPOSITORY SOURCES
+# =============================================================================
+# These sources are synced automatically to keep packages up to date
+
+[upstream_sources]
+# Ubuntu Noble base - synced daily
+[upstream_sources.ubuntu_noble]
+type = "apt-mirror"
+url = "http://archive.ubuntu.com/ubuntu/"
+distribution = "noble"
+components = ["main", "universe", "multiverse", "main-updates", "security", "backports"]
+sync_interval = "daily"
+priority = 100
+
+# Pop!OS COSMIC - synced weekly
+[upstream_sources.pop_cosmic]
+type = "apt-mirror"
+url = "http://apt.pop-os.org/ubuntu/"
+distribution = "noble"
+components = ["main"]
+sync_interval = "weekly"
+priority = 90
+
+# Flathub - Flatpak apps (reference only, installed via flatpak)
+[upstream_sources.flathub]
+type = "flatpak-remote"
+url = "https://flathub.org/repo/flathub.flatpakrepo"
+sync_interval = "daily"
+priority = 80
+
+# Snap Store - Snap packages (reference only)
+[upstream_sources.snap]
+type = "snap-store"
+sync_interval = "daily"
+
+# =============================================================================
+# PACKAGE SOURCES - How packages are obtained
+# =============================================================================
+
+[sources]
+# Example source types:
+# - local: Build from local source directory
+# - apt: Install from Ubuntu repositories
+# - cargo: Build and install from crates.io
+# - github: Download from GitHub releases
+# - flatpak: Reference to Flatpak app
+# - git: Clone and build from git repository
+
+# === LILITH LINUX CORE APPS (Built from local source) ===
+
+[lilith_packages.main.offerings]
+source = "local"
+upstream = "https://github.com/BlancoBAM/Offerings"
+path = "/home/aegon/Offerings"
+build_method = "cargo"
+binary_name = "offerings"
+description = "Unified package manager GUI"
+depends = ["libfontconfig1", "libxcb1", "libxkbcommon0", "libssl3"]
+auto_update = true
+
+[lilith_packages.main.tweakers]
+source = "local"
+upstream = "https://github.com/BlancoBAM/Lilith-Linux/tree/main/Tweakers"
+path = "/home/aegon/Lilith-Linux/Tweakers"
+build_method = "cargo"
+binary_name = "tweakers"
+description = "System optimization and tweaks"
+depends = ["libfontconfig1", "libxcb1", "libgtk-3-0"]
+auto_update = true
+
+[lilith_packages.main.shapeshifter]
+source = "local"
+upstream = "https://github.com/BlancoBAM/Lilith-Linux/tree/main/Shapeshifter"
+path = "/home/aegon/Lilith-Linux/Shapeshifter"
+build_method = "cargo"
+binary_name = "shapeshifter"
+description = "Desktop environment switcher and profile manager"
+depends = ["libfontconfig1", "libxcb1", "libgtk-3-0"]
+auto_update = true
+
+[lilith_packages.main.s8n-rx-packman]
+source = "local"
+upstream = "https://github.com/BlancoBAM/S8n-Rx-PackMan"
+path = "/home/aegon/Lilith-Linux/S8n-Rx-PackMan"
+build_method = "cargo"
+binary_name = "s8n"
+description = "CLI package manager wrapper"
+depends = ["libssl3"]
+auto_update = true
+
+[lilith_packages.main.lilith-tts]
+source = "local"
+upstream = "https://github.com/BlancoBAM/Lilith-TTS"
+path = "/home/aegon/Lilith-Linux/Lilith-TTS"
+build_method = "cargo"
+binary_name = "lilith-tts"
+description = "Text-to-Speech engine (Candle-based)"
+depends = ["libasound2"]
+auto_update = true
+
+[lilith_packages.main.lilim]
+source = "local"
+upstream = "https://github.com/BlancoBAM/Lilim"
+path = "/home/aegon/Lilith-Linux/Lilim"
+build_method = "tauri"
+binary_name = "lilim"
+description = "AI Assistant with persistent memory"
+depends = ["python3", "python3-pip", "nodejs"]
+auto_update = true
+
+[lilith_packages.main.lilith-notepad]
+source = "local"
+upstream = "https://github.com/BlancoBAM/Lilith-Notepad"
+path = "/home/aegon/Lilith-Linux/Lilith-Notepad"
+build_method = "tauri"
+binary_name = "lilith-notepad"
+description = "Simple text editor"
+depends = ["libwebkit2gtk-4.1-0"]
+auto_update = true
+
+[lilith_packages.main.lilith-virtual-keyboard]
+source = "local"
+upstream = "https://github.com/BlancoBAM/Lilith-Virtual-Keyboard"
+path = "/home/aegon/Lilith-Linux/Lilith-Virtual-Keyboard"
+build_method = "python"
+binary_name = "lilith-virtual-keyboard"
+description = "On-screen keyboard"
+depends = ["python3", "python3-pygobject"]
+auto_update = true
+
+# === COSMIC DESKTOP COMPONENTS (from Pop!OS upstream) ===
+
+[lilith_packages.main.cosmic-comp]
+source = "git"
+upstream = "https://github.com/pop-os/cosmic-epoch"
+git_path = "cosmic-comp"
+build_method = "cargo"
+binary_name = "cosmic-comp"
+description = "Wayland compositor"
+depends = ["libwayland-dev", "libseat-dev", "libxkbcommon-dev", "libinput-dev"]
+auto_update = true
+sync_from_upstream = true
+
+[lilith_packages.main.cosmic-applets]
+source = "git"
+upstream = "https://github.com/pop-os/cosmic-epoch"
+git_path = "cosmic-applets"
+build_method = "cargo"
+binary_name = "cosmic-applets"
+description = "Panel applets"
+depends = ["libwayland-dev", "libgtk-3-0"]
+auto_update = true
+sync_from_upstream = true
+
+[lilith_packages.main.cosmic-bg]
+source = "git"
+upstream = "https://github.com/pop-os/cosmic-epoch"
+git_path = "cosmic-bg"
+build_method = "cargo"
+binary_name = "cosmic-bg"
+description = "Background service"
+depends = ["libwayland-dev"]
+auto_update = true
+sync_from_upstream = true
+
+[lilith_packages.main.cosmic-edit]
+source = "git"
+upstream = "https://github.com/pop-os/cosmic-epoch"
+git_path = "cosmic-edit"
+build_method = "cargo"
+binary_name = "cosmic-edit"
+description = "Text editor"
+depends = ["libwayland-dev", "libgtk-3-0"]
+auto_update = true
+sync_from_upstream = true
+
+[lilith_packages.main.cosmic-files]
+source = "git"
+upstream = "https://github.com/pop-os/cosmic-epoch"
+git_path = "cosmic-files"
+build_method = "cargo"
+binary_name = "cosmic-files"
+description = "File manager"
+depends = ["libwayland-dev", "libgtk-3-0"]
+auto_update = true
+sync_from_upstream = true
+
+[lilith_packages.main.cosmic-greeter]
+source = "git"
+upstream = "https://github.com/pop-os/cosmic-epoch"
+git_path = "cosmic-greeter"
+build_method = "cargo"
+binary_name = "lightdm-cosmic-greeter"
+description = "Login screen"
+depends = ["lightdm", "libgtk-3-0"]
+auto_update = true
+sync_from_upstream = true
+
+[lilith_packages.main.cosmic-launcher]
+source = "git"
+upstream = "https://github.com/pop-os/cosmic-epoch"
+git_path = "cosmic-launcher"
+build_method = "cargo"
+binary_name = "cosmic-launcher"
+description = "Application launcher"
+depends = ["libwayland-dev"]
+auto_update = true
+sync_from_upstream = true
+
+[lilith_packages.main.cosmic-panel]
+source = "git"
+upstream = "https://github.com/pop-os/cosmic-epoch"
+git_path = "cosmic-panel"
+build_method = "cargo"
+binary_name = "cosmic-panel"
+description = "Top panel"
+depends = ["libwayland-dev", "libgtk-3-0"]
+auto_update = true
+sync_from_upstream = true
+
+[lilith_packages.main.cosmic-term]
+source = "git"
+upstream = "https://github.com/pop-os/cosmic-epoch"
+git_path = "cosmic-term"
+build_method = "cargo"
+binary_name = "cosmic-term"
+description = "Terminal emulator"
+depends = ["libwayland-dev", "libgtk-3-0", "libvte-2.91-0"]
+auto_update = true
+sync_from_upstream = true
+
+[lilith_packages.main.cosmic-settings]
+source = "git"
+upstream = "https://github.com/pop-os/cosmic-epoch"
+git_path = "cosmic-settings"
+build_method = "cargo"
+binary_name = "cosmic-settings"
+description = "System settings"
+depends = ["libwayland-dev", "libgtk-3-0"]
+auto_update = true
+sync_from_upstream = true
+
+# === RUST ALTERNATIVES (from lil-staRS.toml) ===
+
+[lilith_packages.main.bat]
+source = "apt"
+upstream = "https://github.com/sharkdp/bat"
+package = "bat"
+description = "cat replacement with syntax highlighting"
+auto_update = true
+
+[lilith_packages.main.lsd]
+source = "apt"
+upstream = "https://github.com/lsd-rs/lsd"
+package = "lsd"
+description = "ls replacement with modern features"
+auto_update = true
+
+[lilith_packages.main.fd-find]
+source = "apt"
+upstream = "https://github.com/sharkdp/fd"
+package = "fd-find"
+description = "find replacement"
+auto_update = true
+
+[lilith_packages.main.ripgrep]
+source = "apt"
+upstream = "https://github.com/BurntSushi/ripgrep"
+package = "ripgrep"
+description = "grep replacement"
+auto_update = true
+
+[lilith_packages.main.dust]
+source = "cargo"
+upstream = "https://github.com/bootandy/dust"
+crate = "dust"
+binary_name = "dust"
+description = "du replacement"
+auto_update = true
+
+[lilith_packages.main.procs]
+source = "cargo"
+upstream = "https://github.com/dalance/procs"
+crate = "procs"
+binary_name = "procs"
+description = "ps replacement"
+auto_update = true
+
+[lilith_packages.main.broot]
+source = "cargo"
+upstream = "https://github.com/Canop/broot"
+crate = "broot"
+binary_name = "broot"
+description = "File tree navigation"
+auto_update = true
+
+[lilith_packages.main.navi]
+source = "cargo"
+upstream = "https://github.com/denisidoro/navi"
+crate = "navi"
+binary_name = "navi"
+description = "Cheat sheet"
+auto_update = true
+
+[lilith_packages.main.starship]
+source = "cargo"
+upstream = "https://github.com/starship/starship"
+crate = "starship"
+binary_name = "starship"
+description = "Shell prompt"
+auto_update = true
+
+[lilith_packages.main.zoxide]
+source = "cargo"
+upstream = "https://github.com/ajeetdsouza/zoxide"
+crate = "zoxide"
+binary_name = "zoxide"
+description = "Smart cd"
+auto_update = true
+
+[lilith_packages.main.just]
+source = "cargo"
+upstream = "https://github.com/casey/just"
+crate = "just"
+binary_name = "just"
+description = "Command runner"
+auto_update = true
+
+# === MULTIVERSE (Community Packages from lil-pax.toml) ===
+
+[lilith_packages.multiverse.espanso-gui]
+source = "github"
+upstream = "https://github.com/unobserved-io/espanso-gui"
+repo = "unobserved-io/espanso-gui"
+description = "Text expansion tool"
+format = "appimage"
+auto_update = true
+
+[lilith_packages.multiverse.lotti]
+source = "flatpak"
+upstream = "https://flathub.org/apps/com.matthiasn.lotti"
+app_id = "com.matthiasn.lotti"
+description = "Notes app"
+auto_update = true
+
+[lilith_packages.multiverse.brief]
+source = "flatpak"
+upstream = "https://flathub.org/apps/io.github.shonebinu.Brief"
+app_id = "io.github.shonebinu.Brief"
+description = "Markdown notes"
+auto_update = true
+
+[lilith_packages.multiverse.wonderpen]
+source = "flatpak"
+upstream = "https://flathub.org/apps/com.tominlab.wonderpen"
+app_id = "com.tominlab.wonderpen"
+description = "Writing app"
+auto_update = true
+
+[lilith_packages.multiverse.digikam]
+source = "apt"
+upstream = "https://invent.kde.org/multimedia/digikam"
+package = "digikam"
+description = "Photo management"
+auto_update = true
+
+[lilith_packages.multiverse.spacedrive]
+source = "github"
+upstream = "https://github.com/spacedriveapp/spacedrive"
+repo = "spacedriveapp/spacedrive"
+description = "File explorer"
+format = "appimage"
+auto_update = true
+
+[lilith_packages.multiverse.nushell]
+source = "github"
+upstream = "https://github.com/nushell/nushell"
+repo = "nushell/nushell"
+description = "Modern shell"
+format = "binary"
+auto_update = true
+
+# === UNIVERSE (Developer Packages) ===
+
+[lilith_packages.universe.cargo-nextest]
+source = "cargo"
+upstream = "https://github.com/nextest-rs/nextest"
+crate = "cargo-nextest"
+binary_name = "cargo-nextest"
+description = "Test runner"
+auto_update = true
+
+[lilith_packages.universe.cargo-audit]
+source = "cargo"
+upstream = "https://github.com/rustsec/rustsec"
+crate = "cargo-audit"
+binary_name = "cargo-audit"
+description = "Security vulnerability scanner"
+auto_update = true
+
+[lilith_packages.universe.cargo-udeps]
+source = "cargo"
+upstream = "https://github.com/estebank/cargo-udeps"
+crate = "cargo-udeps"
+binary_name = "cargo-udeps"
+description = "Unused dependency checker"
+auto_update = true
+
+[lilith_packages.universe.cargo-watch]
+source = "cargo"
+upstream = "https://github.com/watchexec/cargo-watch"
+crate = "cargo-watch"
+binary_name = "cargo-watch"
+description = "File watcher"
+auto_update = true
+
+# =============================================================================
+# SYSTEM DEPENDENCIES
+# =============================================================================
+
+[system_dependencies]
+# Required for building Rust apps
+rust = ["cargo", "rustc", "libssl-dev", "pkg-config"]
+
+# Required for COSMIC build
+cosmic = [
+    "libwayland-dev",
+    "libseat-dev", 
+    "libxkbcommon-dev",
+    "libinput-dev",
+    "libdisplay-info-dev",
+    "libgstreamer1.0-dev",
+    "libgstreamer-plugins-base1.0-dev",
+    "libegl1",
+    "libgl1",
+    "libgtk-3-dev"
+]
+
+# Required for Slint UI
+slint = [
+    "libfontconfig1-dev",
+    "libxcb-render0-dev",
+    "libxcb-shape0-dev",
+    "libxcb-xfixes0-dev"
+]
+
+# Required for Tauri
+tauri = [
+    "libwebkit2gtk-4.1-dev",
+    "build-essential",
+    "cmake",
+    "libssl-dev",
+    "libayatana-appindicator3-dev",
+    "librsvg2-dev"
+]
+
+# =============================================================================
+# BUILD CONFIGURATION
+# =============================================================================
+
+[build]
+# Number of parallel build jobs
+jobs = 4
+
+# Build directory
+build_dir = "/tmp/lilith-build"
+
+# Package output directory  
+output_dir = "/home/aegon/Lilith-Build/repo/pool"
+
+# Whether to sign packages
+sign = false
+
+# Whether to auto-approve licenses
+auto_approve_licenses = false
+
+# Timeout for builds (seconds)
+build_timeout = 3600
+
+# =============================================================================
+# UPDATE CONFIGURATION
+# =============================================================================
+
+[updates]
+# How often to check for updates
+check_interval = "daily"
+
+# How often to sync from upstream sources
+sync_interval = "weekly"
+
+# Auto-update packages that have auto_update = true
+auto_sync = true
+
+# Keep old versions
+keep_old_versions = 3
+
+# Update notification settings
+notify_on_update = true
+
+# =============================================================================
+# BACKUP & RECOVERY
+# =============================================================================
+
+[backup]
+# Backup before updates
+backup_before_update = true
+
+# Backup location
+backup_dir = "/var/backup/lilith"
+
+# Number of backups to keep
+backup_count = 5

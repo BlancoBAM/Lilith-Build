@@ -148,6 +148,84 @@ if [ -f "${LILITH_ROOT}/root/Lilith-Linux/Lilith-Splash/install_splash.sh" ]; th
 fi
 
 ###############################################################################
+# 4b. Install Rust Alternatives (uutils coreutils with fallback)
+###############################################################################
+log "Installing Rust alternatives with GNU fallback..."
+
+# Install Rust alternatives via apt (where available) and configure fallback
+chroot "${LILITH_ROOT}" /bin/bash -c "
+    export DEBIAN_FRONTEND=noninteractive
+    apt install -y bat lsd fd-find ripgrep 2>&1 | tail -5 || true
+" || true
+
+# Create profile.d script for seamless fallback
+cat > "${LILITH_ROOT}/etc/profile.d/lilith-rust-alternatives.sh" << 'EOFALTS'
+# Lilith Linux Rust Alternatives - Seamless Fallback
+# This provides Rust-based commands with automatic fallback to GNU coreutils
+
+# ls -> lsd with fallback
+ls() {
+    if command -v lsd &> /dev/null; then
+        lsd "$@"
+    else
+        command ls "$@"
+    fi
+}
+
+# cat -> bat with fallback
+cat() {
+    if command -v bat &> /dev/null; then
+        bat "$@"
+    else
+        command cat "$@"
+    fi
+}
+
+# grep -> ripgrep with fallback
+grep() {
+    if command -v rg &> /dev/null; then
+        rg "$@"
+    else
+        command grep "$@"
+    fi
+}
+
+# find -> fd-find with fallback
+find() {
+    if command -v fdfind &> /dev/null; then
+        fdfind "$@"
+    elif command -v fd &> /dev/null; then
+        fd "$@"
+    else
+        command find "$@"
+    fi
+}
+
+# du -> dust with fallback
+du() {
+    if command -v dust &> /dev/null; then
+        dust "$@"
+    else
+        command du "$@"
+    fi
+}
+
+# ps -> procs with fallback
+ps() {
+    if command -v procs &> /dev/null; then
+        procs "$@"
+    else
+        command ps "$@"
+    fi
+}
+
+# Ensure Rust tools are in PATH
+export PATH="/usr/local/bin:/usr/local/rust/bin:$PATH"
+EOFALTS
+
+log "Rust alternatives configured with GNU fallback"
+
+###############################################################################
 # 5. Install Packages from lil-pax.toml
 ###############################################################################
 log "Installing packages from lil-pax.toml..."

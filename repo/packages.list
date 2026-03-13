@@ -1,0 +1,79 @@
+# Lilith Linux Repository - Simplified Package List
+# For use with apt-ftparchive or reprepro
+
+# This file lists all packages to be included in the Lilith Linux repository
+# Format: source|package|component|description
+
+# === MAIN COMPONENT ===
+
+# Lilith Core Applications
+local|offerings|main|Unified package manager GUI
+local|tweakers|main|System optimization and tweaks
+local|shapeshifter|main|DE switcher and profile manager
+local|s8n|main|CLI package manager wrapper
+local|lilith-tts|main|Text-to-Speech engine
+local|lilim|main|AI Assistant with persistent memory
+local|lilith-notepad|main|Simple text editor
+local|lilith-virtual-keyboard|main|On-screen keyboard
+
+# COSMIC Desktop Components
+local|cosmic-comp|main|Wayland compositor
+local|cosmic-applets|main|Panel applets
+local|cosmic-bg|main|Background service
+local|cosmic-edit|main|Text editor
+local|cosmic-files|main|File manager
+local|cosmic-greeter|main|Login screen
+local|cosmic-launcher|main|Application launcher
+local|cosmic-panel|main|Top panel
+local|cosmic-term|main|Terminal emulator
+local|cosmic-settings|main|System settings
+
+# Rust Alternatives
+apt|bat|main|cat replacement with syntax highlighting
+apt|lsd|main|ls replacement
+apt|fd-find|main|find replacement
+apt|ripgrep|main|grep replacement
+cargo|dust|main|du replacement
+cargo|procs|main|ps replacement
+cargo|broot|main|File tree navigation
+cargo|navi|main|Cheat sheet
+cargo|starship|main|Shell prompt
+cargo|zoxide|main|Smart cd
+cargo|just|main|Command runner
+
+# === MULTIVERSION COMPONENT ===
+
+# Community packages (from lil-pax.toml)
+github|espanso-gui|multiverse|Text expansion
+flatpak|com.matthiasn.lotti|multiverse|Notes app
+flatpak|io.github.shonebinu.Brief|multiverse|Markdown notes
+flatpak|com.tominlab.wonderpen|multiverse|Writing app
+apt|digikam|multiverse|Photo management
+github|spacedriveapp/spacedrive|multiverse|Cross-platform file explorer
+github|nushell/nushell|multiverse|Modern shell
+
+# === UNIVERSE COMPONENT ===
+
+# Developer tools
+cargo|cargo-nextest|universe|Faster test runner
+cargo|cargo-audit|universe|Security scanner
+cargo|cargo-udeps|universe|Unused deps checker
+cargo|cargo-watch|universe|File watcher
+
+# === DEPENDENCIES ===
+
+# System dependencies for building
+apt|build-essential|main|Build tools
+apt|cargo|main|Rust package manager
+apt|rustc|main|Rust compiler
+apt|libssl-dev|main|SSL development files
+apt|pkg-config|main|Package configuration tool
+apt|libwayland-dev|main|Wayland development files
+apt|libseat-dev|main|Seat management library
+apt|libxkbcommon-dev|main|XKB common library
+apt|libinput-dev|main|Input device library
+apt|libgtk-3-dev|main|GTK3 development files
+apt|libfontconfig1-dev|main|Font configuration development
+apt|libxcb1-dev|main|XCB development files
+apt|cmake|main|CMake build system
+apt|nodejs|main|JavaScript runtime
