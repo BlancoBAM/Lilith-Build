@@ -1,0 +1,105 @@
+Lilith Linux is ready for use.
+
+You have two reliable ways to run Lilith Linux:
+
+✅ Option 1: Use the working chroot (recommended for development)
+
+Your Lilith Linux system is already built and fully functional as a chroot at:
+
+/mnt/lilith-cubic/
+To enter and use it:
+
+sudo chroot /mnt/lilith-cubic
+Inside the chroot you have:
+
+COSMIC Desktop
+Hyper 3.4.1 Terminal
+Lilith branding (os-release, issue, LightDM)
+Fluent-icon-theme (dark)
+Rust tooling (bat, lsd, fd, ripgrep, dust, procs, broot, etc.) with aliases
+Lilith custom apps: Offerings, S8n, Tweakers, Shapeshifter, Lilim (AI with Candle inference), etc.
+Flatpak and Snap apps from lil-pax.toml
+s8n upd8 (runs topgrade for updates)
+User lilith / password: lilith (if created via scripts)
+You can start the desktop with startx (or your preferred display manager) and use the system normally.
+
+💿 Option 2: Use the Live ISO (may require boot parameter tweaks)
+
+We built a bootable ISO from the chroot:
+
+/home/aegon/lilith-linux-1.0-cubic.iso   (≈2.7GB)
+To test it in a VM:
+
+# Create a 30GB disk image (if not already exists)
+qemu-img create -f qcow2 /home/aegon/vms/lilith-test.qcow2 30G
+
+# Start the VM
+qemu-system-x86_64 \
+  -m 4096 \
+  -smp 2 \
+  -cdrom /home/aegon/lilith-linux-1.0-cubic.iso \
+  -drive file=/home/aegon/vms/lilith-test.qcow2,format=qcow2 \
+  -boot d \
+  -nic user,model=virtio-net-pci \
+  -display gtk \
+  -name "Lilith Linux Test" &
+If the VM kernel panics, try adjusting the GRUB boot parameters (edit at the GRUB screen by pressing e):
+
+Remove quiet splash to see verbose output
+Try boot=casper live-media-path=/casper
+Try adding break=top or break=mount to get a busybox shell when it fails
+Try nomodeset if you suspect graphics issues
+🌐 Option 3: Transform a fresh Pop!OS/Ubuntu 24.04 system into Lilith Linux (single script)
+
+If you prefer to install Lilith Linux directly onto hardware or into a VM via a fresh Pop!OS/Ubuntu install, use the all-in-one transformation script:
+
+wget -O install-lilith-host.sh https://raw.githubusercontent.com/BlancoBAM/Lilith-Build/master/install-lilith-host.sh
+chmod +x install-lilith-host.sh
+sudo ./install-lilith-host.sh
+This script will:
+
+Update the base system
+Add the Pop!OS repository (for COSMIC)
+Install COSMIC desktop and essential packages
+Install Hyper 3.4.1 (AppImage)
+Install Rust and the full Rust tooling from lil-staRS.toml
+Replace GNU coreutils with uutils (symlinks in /usr/local/bin)
+Install Lilith custom apps (where source is available)
+Apply Lilith branding (os-release, issue, LightDM)
+Install Fluent-icon-theme (dark)
+Install Flatpak and Snap apps from lil-pax.toml
+Configure topgrade (s8n upd8 for updates)
+Create the lilith user (password: lilith)
+Clean up caches
+After it finishes, reboot (or start the desktop with startx) and log in as user lilith with password lilith.
+
+📁 Where to find everything
+
+Working chroot (persistent):
+/mnt/lilith-cubic/ – your main Lilith Linux environment
+
+Build scripts and configs:
+/home/aegon/Lilith-Build/ – all helper scripts, Justfile, configs, etc.
+
+ISOs:
+/home/aegon/lilith-linux-1.0-cubic.iso – the live ISO we built
+/home/aegon/lilith-linux-1.0-v*.iso – previous attempts
+
+Flash drive:
+/dev/sda1 mounted at /mnt/lilith-cubic – 188GB free for development
+
+GitHub repo (build scripts):
+https://github.com/BlancoBAM/Lilith-Build
+
+🚀 Recommended next step
+
+Enter the chroot and verify your system:
+
+sudo chroot /mnt/lilith-cubic
+which bat lsd fd rg dust procs broot
+ls /opt/lilith-apps/
+cat /etc/os-release
+startx   # if you want to try the desktop
+If you prefer to use the ISO or transform a fresh install, follow the steps above.
+
+Your Lilith Linux system is ready—use it however works best for you. Let me know if you need further assistance!
