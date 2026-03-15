@@ -1,0 +1,11 @@
+How to Use
+
+Boot into a fresh Pop!OS 24.04 live USB (or install Pop!OS/Ubuntu 24.04 to disk).
+Open a terminal and run:
+wget -O install-lilith-host.sh https://raw.githubusercontent.com/BlancoBAM/Lilith-Build/master/install-lilith-host.sh
+chmod +x install-lilith-host.sh
+sudo ./install-lilith-host.sh
+The script will run unattended. When it finishes, reboot (or start the desktop with startx) and log in as user lilith with password lilith.
+All Lilith‑specific customizations (branding, Rust tools, Hyper terminal, Flatpak/Snap apps, etc.) will be present. You can further customize the system from within the installed environment.
+
+Enjoy your Lilith Linux!
